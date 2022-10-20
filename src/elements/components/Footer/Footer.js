@@ -1,5 +1,5 @@
 import './Footer.css'
-import logo from '../../resources/Logo/logo.svg'
+import logo from '../../resources/logo/logo.svg'
 import facebook from '../../resources/images/facebook.svg'
 import instagram from '../../resources/images/instagram.svg'
 import twitter from '../../resources/images/twitter.svg'
