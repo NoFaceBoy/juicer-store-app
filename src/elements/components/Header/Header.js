@@ -1,17 +1,16 @@
 import './Header.css'
-import logo from '../../resources/Logo/logo.svg'
+    import logo from '../../resources/logo/logo.svg'
+    import {Link} from "react-router-dom";
 
-const Header = () => {
-    return(
+    const Header = () => {
+        return(
         <header className="header">
             <div className='wrapper'>
-                <img src={logo} alt='Juicer Logo' className="logo"/>
+                <img src={logo} alt='Juicer Store Logo' className="logo"/>
                 <nav className='nav'>
-                    <ul className='nav_menu'>
-                        <li className='nav_item'>Home</li>
-                        <li className='nav_item'>Catalog</li>
-                        <li className='nav_item'>Cart</li>
-                    </ul>
+                    <Link to="/" className='nav_item'>Home</Link>
+                    <Link to="/catalog" className='nav_item'>Catalog</Link>
+                    <Link to="/cart" className='nav_item'>Cart</Link>
                 </nav>
             </div>
             <div className='line'></div>
