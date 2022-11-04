@@ -1,0 +1,12 @@
+.item_info{
+    display: flex;
+}
+
+.item_description{
+    display: flex;
+    flex-direction: column;
+}
+
+.operations{
+    display: block;
+}
