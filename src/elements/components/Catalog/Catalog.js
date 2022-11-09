@@ -20,24 +20,17 @@ const Catalog = () => {
     return items.filter((item) => item.inStock === true);
   };
 
-  const handleInStock = () => {
-    if (document.getElementById("stock").checked) {
-      setItems((juicers) => filterInStock([...juicers]));
-    } else {
-      setItems(juicers);
-    }
-  };
-
   const isValid = () => {
     const priceFrom = document.getElementById("price_from").value;
     const priceTo = document.getElementById("price_to").value;
     const powerFrom = document.getElementById("power_from").value;
     const powerTo = document.getElementById("power_to").value;
+
     if (
       ((priceFrom >= 0) || (priceFrom === "")) &&
-      (((priceTo > priceFrom) && (priceTo >= 0)) || (priceTo === "")) &&
+      (((Number(priceFrom) < Number(priceTo)) && (priceTo > 0)) || (priceTo === "")) &&
       ((powerFrom >= 0 || powerFrom === "")) &&
-      (((powerTo > powerFrom) && (powerTo >= 0))  || (powerTo === ""))
+      (((Number(powerTo) > Number(powerFrom)) && (powerTo >= 0))  || (powerTo === ""))
     ) {
       return true;
     } else {
@@ -61,6 +54,9 @@ const Catalog = () => {
       }
       if (toPowerRange !== "") {
         items = items.filter((item) => item.power <= toPowerRange);
+      }
+      if (document.getElementById("stock").checked) {
+        items = filterInStock([...items]);
       }
     }
     setItems(items);
@@ -104,7 +100,7 @@ const Catalog = () => {
           />
         </div>
         <div>
-          <input type="checkbox" id="stock" onChange={handleInStock} />
+          <input type="checkbox" id="stock" />
           <label>In stock</label>
         </div>
         <button className="apply button" id="apply" onClick={applyFilters}>
@@ -126,7 +122,7 @@ const Catalog = () => {
                 picture={picture}
                 model={model}
                 text={text}
-                price={price}
+                price={price}   
               ></Card>
               <button className="view_more button">
                 <Link to={`/catalog/${id}`}>View more</Link>

@@ -15,10 +15,10 @@ const ItemPage = () => {
       <div className="item_info">
         <img className="item_img" src={item.picture} alt="Juicer"></img>
         <div className="item_description">
-          <h1>{item.model}</h1>
-          <p>{item.text}</p>
-          <p>Power: {item.power}W</p>
-          <p>Is in stock: {String(item.inStock)}</p>
+          <h1 className="model_value">{item.model}</h1>
+          <p className="description_value">{item.text}</p>
+          <p className="power_value">Power: {item.power}W</p>
+          <p className="stock_value">Is in stock: {String(item.inStock)}</p>
           <span>Warranty:</span>
           <select className="warranty">
             <option>No warranty</option>
@@ -36,7 +36,7 @@ const ItemPage = () => {
         </div>
       </div>
       <div className="operations">
-        <p>Price: ${item.price}</p>
+        <p className="price_value">Price: ${item.price}</p>
         <button className="button">
           <Link to="/catalog" className="go_back">
             Go back
