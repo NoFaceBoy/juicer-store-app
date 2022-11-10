@@ -1,8 +1,9 @@
 import "./Catalog.css";
 import Card from "../Card/Card.js";
 import { Link } from "react-router-dom";
-import { getItems } from "../../api/items_api.js"
+import { getItems } from "../../api/items_api.js";
 import React, { useState, useEffect } from "react";
+import Loader from "../Loader/Loader.js";
 
 const Catalog = () => {
   let [items, setItems] = useState([]);
@@ -11,9 +12,13 @@ const Catalog = () => {
   const [toPriceRange, setToPriceRange] = useState("");
   const [fromPowerRange, setFromPowerRange] = useState("");
   const [toPowerRange, setToPowerRange] = useState("");
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getItems().then(data => setItems(data));
+    getItems().then((data) => {
+      setLoading(false);
+      setItems(data);
+    });
   }, []);
 
   // const filteredItems = items.filter((item) => {
@@ -27,10 +32,11 @@ const Catalog = () => {
     const powerTo = document.getElementById("power_to").value;
 
     if (
-      ((priceFrom >= 0) || (priceFrom === "")) &&
-      (((Number(priceFrom) < Number(priceTo)) && (priceTo > 0)) || (priceTo === "")) &&
-      ((powerFrom >= 0 || powerFrom === "")) &&
-      (((Number(powerTo) > Number(powerFrom)) && (powerTo >= 0))  || (powerTo === ""))
+      (priceFrom >= 0 || priceFrom === "") &&
+      ((Number(priceFrom) <= Number(priceTo) && priceTo > 0) ||
+        priceTo === "") &&
+      (powerFrom >= 0 || powerFrom === "") &&
+      ((Number(powerTo) >= Number(powerFrom) && powerTo >= 0) || powerTo === "")
     ) {
       return true;
     } else {
@@ -40,6 +46,7 @@ const Catalog = () => {
   };
 
   const applyFilters = () => {
+    setLoading(true);
     let params = {};
     if (isValid()) {
       if (fromPriceRange !== "") {
@@ -55,13 +62,16 @@ const Catalog = () => {
         params.toPowerRange = toPowerRange;
       }
       if (document.getElementById("stock").checked) {
-        params.inStock = 'true';
+        params.inStock = "true";
       }
       if (search !== "") {
         params.search = search;
       }
     }
-    getItems(params).then(data => setItems(data));
+    getItems(params).then((data) => {
+      setItems(data);
+      setLoading(false);
+    });
   };
 
   return (
@@ -117,6 +127,7 @@ const Catalog = () => {
       </section>
       <div className="line"></div>
       <section className="items_list">
+        {loading && <Loader />}
         <div className="catalog_item">
           {items.map(({ id, picture, model, text, price }) => (
             <div className="juicer_item">
