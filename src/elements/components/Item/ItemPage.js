@@ -5,11 +5,14 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { getItemById } from "../../api/items_api.js";
 import Loader from "../Loader/Loader.js";
+import { useDispatch } from "react-redux";
+import { addProduct } from "../../store/CartSlice.js";
 
 const ItemPage = () => {
   const { id } = useParams();
   const [item, setItem] = useState([]);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     getItemById(id).then((data) => {
@@ -46,16 +49,14 @@ const ItemPage = () => {
       </div>
       <div className="operations">
         <p className="price_value">Price: ${item.price}</p>
-        <button className="button">
-          <Link to="/catalog" className="go_back">
-            Go back
-          </Link>
-        </button>
-        <button className="button">
-          <Link to="/cart" className="add_to_cart">
+        <Link to="/catalog" className="go_back">
+          <button className="button">Go back</button>
+        </Link>
+        <Link to="/cart" className="add_to_cart">
+          <button className="button" onClick={() => dispatch(addProduct(item))}>
             Add to cart
-          </Link>
-        </button>
+          </button>
+        </Link>
       </div>
     </section>
   );

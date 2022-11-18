@@ -35,8 +35,9 @@ const Main = () => {
       <Preview />
       <div className="items">
         {loading && <Loader />}
-        {items.slice(0, number).map(({ picture, model, text, price }, id) => (
+        {items.slice(0, number).map(({ id, picture, model, text, price }) => (
           <Card
+            id={id}
             picture={picture}
             model={model}
             text={text}
