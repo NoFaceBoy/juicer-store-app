@@ -1,17 +1,26 @@
 import "./ItemPage.css";
 import "../Main/Main.css";
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import juicers from "../../resources/items/Juicers.js";
+import { getItemById } from "../../api/items_api.js";
+import Loader from "../Loader/Loader.js";
 
 const ItemPage = () => {
   const { id } = useParams();
-  const [items, setItems] = useState(juicers);
-  const item = items.find((item) => item.id == id);
+  const [item, setItem] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    getItemById(id).then((data) => {
+      setItem(data);
+      setLoading(false);
+    });
+  }, []);
 
   return (
     <section>
+      {loading && <Loader />}
       <div className="item_info">
         <img className="item_img" src={item.picture} alt="Juicer"></img>
         <div className="item_description">

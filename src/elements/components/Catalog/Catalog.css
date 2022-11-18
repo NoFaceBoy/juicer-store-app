@@ -34,7 +34,8 @@
 
 .catalog_item{
     display: flex;
-    justify-content: space-between;
+    padding-left: 2rem;
+    padding-right: 2rem;
     flex-wrap: wrap;
 }
 
@@ -47,6 +48,7 @@
 }
 
 .juicer_item{
+    margin-bottom: 30px;
     padding: 20px;
     width: 20rem;
     text-align: center;

@@ -1,24 +1,29 @@
 import "./Catalog.css";
-import juicers from "../../resources/items/Juicers.js";
 import Card from "../Card/Card.js";
 import { Link } from "react-router-dom";
-import React, { useState } from "react";
+import { getItems } from "../../api/items_api.js";
+import React, { useState, useEffect } from "react";
+import Loader from "../Loader/Loader.js";
 
 const Catalog = () => {
-  let [items, setItems] = useState(juicers);
+  let [items, setItems] = useState([]);
   const [search, setSearch] = useState("");
   const [fromPriceRange, setFromPriceRange] = useState("");
   const [toPriceRange, setToPriceRange] = useState("");
   const [fromPowerRange, setFromPowerRange] = useState("");
   const [toPowerRange, setToPowerRange] = useState("");
+  const [loading, setLoading] = useState(true);
 
-  const filteredItems = items.filter((item) => {
-    return item.model.toLowerCase().includes(search.toLowerCase());
-  });
+  useEffect(() => {
+    getItems().then((data) => {
+      setLoading(false);
+      setItems(data);
+    });
+  }, []);
 
-  const filterInStock = (items) => {
-    return items.filter((item) => item.inStock === true);
-  };
+  // const filteredItems = items.filter((item) => {
+  //   return item.model.toLowerCase().includes(search.toLowerCase());
+  // });
 
   const isValid = () => {
     const priceFrom = document.getElementById("price_from").value;
@@ -27,10 +32,11 @@ const Catalog = () => {
     const powerTo = document.getElementById("power_to").value;
 
     if (
-      ((priceFrom >= 0) || (priceFrom === "")) &&
-      (((Number(priceFrom) < Number(priceTo)) && (priceTo > 0)) || (priceTo === "")) &&
-      ((powerFrom >= 0 || powerFrom === "")) &&
-      (((Number(powerTo) > Number(powerFrom)) && (powerTo >= 0))  || (powerTo === ""))
+      (priceFrom >= 0 || priceFrom === "") &&
+      ((Number(priceFrom) <= Number(priceTo) && priceTo > 0) ||
+        priceTo === "") &&
+      (powerFrom >= 0 || powerFrom === "") &&
+      ((Number(powerTo) >= Number(powerFrom) && powerTo >= 0) || powerTo === "")
     ) {
       return true;
     } else {
@@ -40,26 +46,32 @@ const Catalog = () => {
   };
 
   const applyFilters = () => {
-    items = juicers;
+    setLoading(true);
+    let params = {};
     if (isValid()) {
       if (fromPriceRange !== "") {
-        items = items.filter((item) => item.price >= fromPriceRange);
+        params.fromPriceRange = fromPriceRange;
       }
       if (toPriceRange !== "") {
-        items = items.filter((item) => item.price <= toPriceRange);
-        setItems(items);
+        params.toPriceRange = toPriceRange;
       }
       if (fromPowerRange !== "") {
-        items = items.filter((item) => item.power >= fromPowerRange);
+        params.fromPowerRange = fromPowerRange;
       }
       if (toPowerRange !== "") {
-        items = items.filter((item) => item.power <= toPowerRange);
+        params.toPowerRange = toPowerRange;
       }
       if (document.getElementById("stock").checked) {
-        items = filterInStock([...items]);
+        params.inStock = "true";
+      }
+      if (search !== "") {
+        params.search = search;
       }
     }
-    setItems(items);
+    getItems(params).then((data) => {
+      setItems(data);
+      setLoading(false);
+    });
   };
 
   return (
@@ -115,14 +127,15 @@ const Catalog = () => {
       </section>
       <div className="line"></div>
       <section className="items_list">
+        {loading && <Loader />}
         <div className="catalog_item">
-          {filteredItems.map(({ id, picture, model, text, price }) => (
+          {items.map(({ id, picture, model, text, price }) => (
             <div className="juicer_item">
               <Card
                 picture={picture}
                 model={model}
                 text={text}
-                price={price}   
+                price={price}
               ></Card>
               <button className="view_more button">
                 <Link to={`/catalog/${id}`}>View more</Link>
