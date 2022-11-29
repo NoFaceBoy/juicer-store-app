@@ -37,7 +37,7 @@ const Checkout = () => {
           .trim()
           .matches(
             /^\+?3?8?(0[\s\.-]\d{2}[\s\.-]\d{3}[\s\.-]\d{2}[\s\.-]\d{2})$/,
-            "Unsupported phone number format"
+            "Example:+380-XX-XXX-XX-XX"
           ),
         city: Yup.string()
           .min(3, "Minimum of 3 characters")
@@ -54,32 +54,78 @@ const Checkout = () => {
           .required(),
       })}
     >
-      <div className="checkout_form">
+      <section className="checkout_form">
         <Form>
-          <h2>Personal information</h2>
-          <Field name="name" placeholder="Name" type="text" />
-          <ErrorMessage name="name" component="h5" />
-          <Field name="surname" placeholder="Surname" type="text" />
-          <ErrorMessage name="surname" component="h5" />
-          <h2>Contact details</h2>
-          <Field name="email" placeholder="Email" type="text" />
-          <ErrorMessage name="email" component="h5" />
-          <Field name="phone" placeholder="+380-XX-XXX-XX-XX" type="text" />
-          <ErrorMessage name="phone" component="h5" />
-          <h2>Shipping details</h2>
-          <Field name="city" placeholder="City" type="text" />
-          <ErrorMessage name="city" component="h5" />
-          <Field name="address" placeholder="Address" type="text" />
-          <ErrorMessage name="address" component="h5" />
-          <p>If you order you agree with our terms and conditions</p>
+          <div className="personal">
+            <h2>Personal information</h2>
+            <Field
+              className="input"
+              name="name"
+              placeholder="Name"
+              type="text"
+            />
+            <Field
+              className="input"
+              name="surname"
+              placeholder="Surname"
+              type="text"
+            />
+            <div className="errors">
+              <ErrorMessage className="error" name="name" component="h5" />
+              <ErrorMessage className="error" name="surname" component="h5" />
+            </div>
+          </div>
+          <div className="contact">
+            <h2>Contact details</h2>
+            <Field
+              className="input"
+              name="email"
+              placeholder="Email"
+              type="text"
+            />
+            <Field
+              className="input"
+              name="phone"
+              placeholder="Phone (optional)"
+              type="text"
+            />
+            <div className="errors">
+              <ErrorMessage name="email" component="h5" />
+              <ErrorMessage name="phone" component="h5" />
+            </div>
+          </div>
+          <div className="shipping">
+            <h2>Shipping details</h2>
+            <Field
+              className="input"
+              name="city"
+              placeholder="City"
+              type="text"
+            />
+            <Field
+              className="input"
+              name="address"
+              placeholder="Address"
+              type="text"
+            />
+            <div className="errors">
+              <ErrorMessage name="city" component="h5" />
+              <ErrorMessage name="address" component="h5" />
+            </div>
+          </div>
           <Field name="terms" placeholder="terms" type="checkbox" />
-          <ErrorMessage name="terms" component="h5" />
+          <span>I confirm that I have acknowledged all terms.</span>
+          <div className="errors">
+            <ErrorMessage className="error" name="terms" component="h5" />
+          </div>
           <Link to="/cart" className="back_catalog">
-          <button className="button">Return</button>
-            </Link>
-          <button type="submit">Submit</button>
+            <button className="button">Return</button>
+          </Link>
+          <button className="button" type="submit">
+            Submit
+          </button>
         </Form>
-      </div>
+      </section>
     </Formik>
   );
 };

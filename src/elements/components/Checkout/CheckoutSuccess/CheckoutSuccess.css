@@ -1,4 +1,16 @@
 .message_container{
     display: flex;
     justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.message_container h1{
+    color:#333333;
+    font-weight: 400;
+}
+
+.success_logo{
+    height: 400px;
+    width: 400px;
 }
