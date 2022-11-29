@@ -30,7 +30,7 @@ const Cart = () => {
     <div>
       {items.map((item) => (
         <div className="cart_item">
-          <img src={item.picture}></img>
+          <img src={item.picture} alt='Juicer image'></img>
           <h1>{item.model}</h1>
           <h2 className="cart_price">{item.price}$</h2>
           <div className="cart_operations">
@@ -46,7 +46,9 @@ const Cart = () => {
         <Link to="/catalog" className="back_catalog">
           <button className="button">Back to catalog</button>
         </Link>
-        <button className="button continue">Continue</button>
+        <Link to="/cart/checkout" className="back_catalog">
+          <button className="button">Continue</button>
+        </Link>
       </nav>
     </div>
   );
