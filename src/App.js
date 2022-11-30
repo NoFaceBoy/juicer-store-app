@@ -7,19 +7,24 @@ import ItemPage from "./elements/components/Item/ItemPage.js";
 import Cart from "./elements/components/Cart/Cart.js";
 import Checkout from "./elements/components/Checkout/Checkout.js";
 import CheckoutSuccess from "./elements/components/Checkout/CheckoutSuccess/CheckoutSuccess.js";
+import Login from "./elements/components/Login/Login.js";
+import SignUp from "./elements/components/SignUp/SignUp.js";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 function App() {
+  const loggedUser = localStorage.getItem('loggedUser');
   return (
     <BrowserRouter>
-        <Header />
+    {loggedUser !== 'null' ? <Header/> : null}
         <Routes>
-          <Route path="/" element={<Main />} />
-          <Route path="/catalog" element={<Catalog />} />
-          <Route path="/catalog/:id" element={<ItemPage />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route path="/cart/checkout" element={<Checkout />} />
-          <Route path="/cart/checkout/success" element={<CheckoutSuccess />}/>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signUp" element={<SignUp />} />
+          <Route path="/" element={loggedUser !== 'null' ? <Main /> : <Login />} />
+          <Route path="/catalog" element={loggedUser !== 'null' ? <Catalog /> : null} />
+          <Route path="/catalog/:id" element={loggedUser !== 'null' ? <ItemPage /> : null} />
+          <Route path="/cart" element={loggedUser !== 'null' ? <Cart /> : null} />
+          <Route path="/cart/checkout" element={loggedUser !== 'null' ? <Checkout /> : null} />
+          <Route path="/cart/checkout/success" element={loggedUser !== 'null' ? <CheckoutSuccess /> : null} />
         </Routes>
         <Footer />
     </BrowserRouter>
