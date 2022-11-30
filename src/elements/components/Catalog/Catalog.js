@@ -21,10 +21,6 @@ const Catalog = () => {
     });
   }, []);
 
-  // const filteredItems = items.filter((item) => {
-  //   return item.model.toLowerCase().includes(search.toLowerCase());
-  // });
-
   const isValid = () => {
     const priceFrom = document.getElementById("price_from").value;
     const priceTo = document.getElementById("price_to").value;
@@ -132,14 +128,13 @@ const Catalog = () => {
           {items.map(({ id, picture, model, text, price }) => (
             <div className="juicer_item">
               <Card
+                id={id}
                 picture={picture}
                 model={model}
                 text={text}
                 price={price}
               ></Card>
-              <button className="view_more button">
-                <Link to={`/catalog/${id}`}>View more</Link>
-              </button>
+              <Link to={`/catalog/${id}`}><button className="view_more button">View more</button></Link>
             </div>
           ))}
         </div>

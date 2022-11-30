@@ -40,7 +40,11 @@
     justify-content: end;
 }
 
-.operations > button{
+.go_back{
+    margin-right: 100px;
+}
+
+.add_to_cart{
     margin-right: 100px;
 }
 
@@ -52,6 +56,7 @@
     font-weight: 600;
 }
 
-.button{
-    
+.item_img{
+    width: auto;
+    height: 700px;
 }
